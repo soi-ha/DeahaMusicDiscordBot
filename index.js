@@ -1,7 +1,7 @@
 require('dotenv').config(); // .env 불러오기
 const { Client, IntentsBitField, EmbedBuilder } = require('discord.js');
 const { joinVoiceChannel, createAudioPlayer, createAudioResource, AudioPlayerStatus } = require('@discordjs/voice');
-const ytdl = require('ytdl-core');
+const ytdl = require('@distube/ytdl-core');
 const ytSearch = require('yt-search');
 
 // 클라이언트 생성 (필요한 인텐트 활성화)
@@ -58,7 +58,21 @@ client.on('messageCreate', async (message) => {
 		// 대기열 관리
 		let queue = queueMap.get(message.guild.id);
 		if (!queue) {
-			queue = { voiceChannel, textChannel: message.channel, player: createAudioPlayer(), songs: [] };
+			// queue = { voiceChannel, textChannel: message.channel, player: createAudioPlayer(), songs: [] };
+			// 1) 플레이어를 생성하고
+			const player = createAudioPlayer();
+			// 2) 에러 핸들러 등록 (스트림 에러 시 다음 곡으로 넘어가도록)
+			player.on('error', (error) => {
+				console.error('🔴 AudioPlayerError:', error);
+				// 다음 곡 재생 시도
+				playSong(message.guild.id, queue.songs.shift());
+			}); // 3) 큐 객체에 player를 포함시켜 저장
+			queue = {
+				voiceChannel,
+				textChannel: message.channel,
+				player,
+				songs: [],
+			};
 			queueMap.set(message.guild.id, queue);
 
 			// 채널 조인
