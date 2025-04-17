@@ -1,0 +1,50 @@
+# ── macOS ─────────────────────────────────────────
+# macOS가 생성하는 메타데이터
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Icon? 파일
+Icon?
+
+# ── Node.js ────────────────────────────────────────
+# 의존성 디렉터리
+node_modules/
+
+# 로그 파일
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# 환경변수 파일
+.env
+.env.*.local
+
+# 빌드/배포 산출물
+/dist
+/build
+/temp
+
+# 테스트 커버리지
+coverage/
+nyc_output/
+
+# ── 에디터/IDE ────────────────────────────────────
+# VSCode 설정
+.vscode/
+
+# JetBrains 계열 (WebStorm, IntelliJ 등)
+.idea/
+
+# ── 기타 ───────────────────────────────────────────
+# 로그
+logs/
+*.log
+
+# 윈도우 썸네일
+Thumbs.db
+desktop.ini
+
+# npm 패키지 압축
+*.tgz
